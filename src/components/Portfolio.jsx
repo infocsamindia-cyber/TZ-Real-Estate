@@ -43,13 +43,14 @@ const Portfolio = () => {
       transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
       border: '1px solid #eee',
       cursor: 'pointer',
-      WebkitTapHighlightColor: 'transparent' // Mobile touch blue box hatane ke liye
+      WebkitTapHighlightColor: 'transparent'
     },
     
     imageContainer: { width: '100%', position: 'relative', backgroundColor: '#f0f0f0', overflow: 'hidden' },
-    propertyImage: { width: '100%', height: '250px', display: 'block', objectFit: 'cover' },
     
-    // Step 2: Glassmorphism Price Badge
+    // Yahan height ko responsive class ke zariye control karenge
+    propertyImage: { width: '100%', display: 'block', objectFit: 'cover' },
+    
     priceBadge: {
       position: 'absolute', top: '15px', left: '15px', 
       backgroundColor: 'rgba(204, 0, 0, 0.85)', 
@@ -66,7 +67,6 @@ const Portfolio = () => {
       fontSize: '13px', color: '#555'
     },
     
-    // Step 3: Quick Action Buttons (Call & WhatsApp)
     actionArea: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '15px' },
     waBtn: {
       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
@@ -88,12 +88,23 @@ const Portfolio = () => {
 
   return (
     <div style={styles.wrapper}>
-      {/* Step 2: Global CSS for Hover/Mobile Effects */}
+      {/* UPDATE: Added Responsive Height for PC/Laptop */}
       <style>{`
         .listing-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(204, 0, 0, 0.1); border-color: #cc000033; }
         .listing-card:active { transform: scale(0.98); }
         .swiper-button-next, .swiper-button-prev { background: rgba(255,255,255,0.8); width: 30px !important; height: 30px !important; border-radius: 50%; }
         .swiper-button-next:after, .swiper-button-prev:after { fontSize: 12px !important; fontWeight: bold; }
+        
+        /* Mobile height (Default) */
+        .res-swiper, .res-img { height: 250px !important; }
+
+        /* Tablet & PC height (Responsive Fix) */
+        @media (min-width: 768px) {
+          .res-swiper, .res-img { height: 350px !important; }
+        }
+        @media (min-width: 1024px) {
+          .res-swiper, .res-img { height: 400px !important; }
+        }
       `}</style>
 
       <div style={styles.innerContainer}>
@@ -112,16 +123,16 @@ const Portfolio = () => {
                     navigation
                     pagination={{ clickable: true }}
                     autoplay={{ delay: 4000 }}
-                    style={{ height: '250px' }}
+                    className="res-swiper" 
                   >
                     {p.images.map((img, idx) => (
                       <SwiperSlide key={idx}>
-                        <img src={img} alt={p.title} style={styles.propertyImage} loading="lazy" />
+                        <img src={img} alt={p.title} style={styles.propertyImage} className="res-img" loading="lazy" />
                       </SwiperSlide>
                     ))}
                   </Swiper>
                 ) : (
-                  <img src='https://via.placeholder.com/400x300' alt="placeholder" style={styles.propertyImage} />
+                  <img src='https://via.placeholder.com/400x300' alt="placeholder" style={styles.propertyImage} className="res-img" />
                 )}
               </div>
 
@@ -144,7 +155,6 @@ const Portfolio = () => {
                   <span><i className="fas fa-bath" style={{color: '#cc0000'}}></i> {p.bathrooms || '0'} Baths</span>
                 </div>
 
-                {/* Step 3: Quick Action Area */}
                 <div style={styles.actionArea}>
                     <a href="tel:+923169477919" style={styles.callBtn}>
                         <i className="fas fa-phone-alt"></i> Call

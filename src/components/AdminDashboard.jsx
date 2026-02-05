@@ -16,7 +16,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-// --- SEARCH FIELD (MOBILE RESPONSIVE) ---
+// --- SEARCH FIELD ---
 const SearchField = ({ setMarkerPos, setFormData, mapType, setMapType, mapRef }) => {
   const [queryText, setQueryText] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -139,7 +139,8 @@ const AdminDashboard = () => {
   const [mapType, setMapType] = useState('default');
   const [formData, setFormData] = useState({ 
     title: '', price: '', location: '', mapUrl: '',
-    bedrooms: '', bathrooms: '', sqft: '', garage: '0' 
+    bedrooms: '', bathrooms: '', sqft: '', garage: '0',
+    isPinned: false // ADDED
   });
   
   const [imgLinks, setImgLinks] = useState(Array(10).fill(''));
@@ -162,6 +163,12 @@ const AdminDashboard = () => {
     const newLinks = [...imgLinks];
     newLinks[index] = value;
     setImgLinks(newLinks);
+  };
+
+  const togglePin = async (id, currentStatus) => {
+    try {
+      await updateDoc(doc(db, "properties", id), { isPinned: !currentStatus });
+    } catch (err) { alert(err.message); }
   };
 
   function LocationPicker() {
@@ -195,7 +202,7 @@ const AdminDashboard = () => {
         await updateDoc(doc(db, "properties", editId), payload);
         alert("Updated!");
       } else {
-        await addDoc(collection(db, "properties"), { ...payload, status: 'Available', isPinned: false });
+        await addDoc(collection(db, "properties"), { ...payload, status: 'Available' });
         alert("Published!");
       }
       resetForm();
@@ -204,14 +211,14 @@ const AdminDashboard = () => {
   };
 
   const resetForm = () => {
-    setFormData({ title: '', price: '', location: '', mapUrl: '', bedrooms: '', bathrooms: '', sqft: '', garage: '0' });
+    setFormData({ title: '', price: '', location: '', mapUrl: '', bedrooms: '', bathrooms: '', sqft: '', garage: '0', isPinned: false });
     setImgLinks(Array(10).fill(''));
     setEditId(null);
   };
 
   const startEdit = (p) => {
     setEditId(p.id);
-    setFormData({ ...p, mapUrl: p.mapUrl || '' });
+    setFormData({ ...p, mapUrl: p.mapUrl || '', isPinned: p.isPinned || false });
     const newLinks = Array(10).fill('');
     (p.images || []).forEach((url, i) => { if(i < 10) newLinks[i] = url; });
     setImgLinks(newLinks);
@@ -235,7 +242,7 @@ const AdminDashboard = () => {
       <div style={styles.topNav}>
         <div>
           <h4 style={{ color: '#10284e', margin: 0 }}>TZ Management</h4>
-          <p style={{fontSize: '10px', color: '#666'}}>Admin Portal | By Ayan Ansari</p>
+          <p style={{fontSize: '10px', color: '#666'}}>Admin Portal</p>
         </div>
         <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
       </div>
@@ -297,6 +304,20 @@ const AdminDashboard = () => {
             </MapContainer>
           </div>
 
+          {/* PIN PROPERTY CHECKBOX */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px', padding: '10px', background: '#f8f9fa', borderRadius: '8px' }}>
+            <input 
+              type="checkbox" 
+              id="isPinned" 
+              checked={formData.isPinned} 
+              onChange={(e) => setFormData({ ...formData, isPinned: e.target.checked })}
+              style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+            />
+            <label htmlFor="isPinned" style={{ fontSize: '14px', fontWeight: 'bold', color: '#10284e', cursor: 'pointer' }}>
+              📌 Pin this property to the top of listings
+            </label>
+          </div>
+
           <button type="submit" style={styles.btnSubmit} disabled={uploading}>
             {uploading ? 'SAVING...' : editId ? '💾 UPDATE' : '🚀 PUBLISH'}
           </button>
@@ -305,13 +326,18 @@ const AdminDashboard = () => {
 
       <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
         {properties.map(p => (
-          <div key={p.id} style={styles.listCard}>
+          <div key={p.id} style={{...styles.listCard, borderLeft: p.isPinned ? '6px solid #28a745' : '6px solid #cc0000'}}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '10px' }}>
                <div style={{flex: '1'}}>
-                 <h5 style={{ margin: '0 0 5px 0', fontSize: '14px' }}>{p.title}</h5>
+                 <h5 style={{ margin: '0 0 5px 0', fontSize: '14px' }}>
+                   {p.isPinned && "📌 "}{p.title}
+                 </h5>
                  <p style={{ fontSize: '12px', color: '#666', margin: 0 }}>{p.location}</p>
                </div>
                <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                 <button onClick={() => togglePin(p.id, p.isPinned)} style={{...styles.actionBtn, background: p.isPinned ? '#fff3cd' : '#e2e3e5', color: '#856404'}}>
+                   {p.isPinned ? 'Unpin' : 'Pin'}
+                 </button>
                  <button onClick={() => startEdit(p)} style={{...styles.actionBtn, background: '#e7f1ff', color: '#0056b3'}}>Edit</button>
                  <button onClick={() => { if(window.confirm('Delete?')) deleteDoc(doc(db, "properties", p.id)) }} style={{...styles.actionBtn, background: '#f8d7da', color: '#721c24'}}>Del</button>
                </div>
