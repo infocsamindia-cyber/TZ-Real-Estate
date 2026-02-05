@@ -12,11 +12,23 @@ const Contact = () => {
     e.preventDefault();
     setStatus('sending');
     
+    // --- WHATSAPP REDIRECT LOGIC ---
+    const { name, email, phone, message } = formData;
+    const waMessage = `*New General Inquiry*%0A%0A` +
+                      `*Name:* ${name}%0A` +
+                      `*Email:* ${email}%0A` +
+                      `*Phone:* ${phone}%0A` +
+                      `*Message:* ${message}`;
+
+    // Pehle WhatsApp kholega
+    window.open(`https://wa.me/923169477919?text=${waMessage}`, '_blank');
+
+    // Phir success message dikhayega jaisa pehle tha
     setTimeout(() => {
       setStatus('success');
       setFormData({ name: '', email: '', phone: '', message: '' });
       setTimeout(() => setStatus(''), 5000);
-    }, 2000);
+    }, 1000);
   };
 
   // --- ASLI GOOGLE MAPS LINK FOR GULBERG GREENS ---

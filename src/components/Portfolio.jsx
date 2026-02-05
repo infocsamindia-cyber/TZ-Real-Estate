@@ -28,65 +28,95 @@ const Portfolio = () => {
   }, []);
 
   const styles = {
-    wrapper: { padding: '60px 0', backgroundColor: '#f4f4f4', minHeight: '100vh' },
-    innerContainer: { maxWidth: '1200px', margin: '0 auto', padding: '0 20px' },
-    sectionTitle: { textAlign: 'center', color: '#10284e', fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '10px' },
-    underline: { width: '80px', height: '4px', background: '#cc0000', margin: '0 auto 40px auto' },
-    grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '30px' },
-    card: (isSold) => ({
+    wrapper: { padding: '60px 0', backgroundColor: '#f8f9fa', minHeight: '100vh', fontFamily: "'Poppins', sans-serif" },
+    innerContainer: { maxWidth: '1200px', margin: '0 auto', padding: '0 15px' },
+    sectionTitle: { textAlign: 'center', color: '#10284e', fontSize: '2rem', fontWeight: '800', marginBottom: '5px', textTransform: 'uppercase' },
+    underline: { width: '50px', height: '4px', background: '#cc0000', margin: '0 auto 40px auto', borderRadius: '2px' },
+    grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '25px' },
+    
+    card: {
       backgroundColor: '#fff',
-      borderRadius: '5px',
-      boxShadow: '0 5px 15px rgba(0,0,0,0.1)',
+      borderRadius: '16px',
+      boxShadow: '0 10px 25px rgba(0,0,0,0.05)',
       position: 'relative',
-      opacity: isSold ? 0.9 : 1,
       overflow: 'hidden',
-      transition: 'transform 0.3s'
-    }),
-    // FIXED: Image container height ab auto hai taaki image ke hisab se adjust ho
-    imageContainer: { width: '100%', position: 'relative', backgroundColor: '#eee' },
-    propertyImage: { width: '100%', height: 'auto', display: 'block', objectFit: 'contain' },
-    priceBadge: {
-      position: 'absolute', top: '10px', left: '10px', backgroundColor: '#cc0000', color: '#fff',
-      padding: '5px 15px', borderRadius: '3px', fontWeight: 'bold', fontSize: '18px', zIndex: 10
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      border: '1px solid #eee',
+      cursor: 'pointer',
+      WebkitTapHighlightColor: 'transparent' // Mobile touch blue box hatane ke liye
     },
+    
+    imageContainer: { width: '100%', position: 'relative', backgroundColor: '#f0f0f0', overflow: 'hidden' },
+    propertyImage: { width: '100%', height: '250px', display: 'block', objectFit: 'cover' },
+    
+    // Step 2: Glassmorphism Price Badge
+    priceBadge: {
+      position: 'absolute', top: '15px', left: '15px', 
+      backgroundColor: 'rgba(204, 0, 0, 0.85)', 
+      backdropFilter: 'blur(8px)',
+      color: '#fff', padding: '6px 15px', borderRadius: '10px', 
+      fontWeight: '800', fontSize: '16px', zIndex: 10,
+      boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+    },
+
     content: { padding: '20px' },
     detailsGrid: { 
-      display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', 
-      margin: '15px 0', padding: '15px 0', borderTop: '1px solid #eee', borderBottom: '1px solid #eee',
-      fontSize: '14px', color: '#666'
+      display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', 
+      margin: '15px 0', padding: '15px 0', borderTop: '1px solid #f0f0f0', borderBottom: '1px solid #f0f0f0',
+      fontSize: '13px', color: '#555'
     },
+    
+    // Step 3: Quick Action Buttons (Call & WhatsApp)
+    actionArea: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '15px' },
     waBtn: {
-      display: 'block', textAlign: 'center', backgroundColor: '#10284e', color: '#fff',
-      padding: '12px', borderRadius: '3px', textDecoration: 'none', fontWeight: 'bold', marginTop: '15px'
+      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+      backgroundColor: '#25D366', color: '#fff', padding: '12px', borderRadius: '10px', 
+      textDecoration: 'none', fontWeight: 'bold', fontSize: '14px', transition: '0.3s'
+    },
+    callBtn: {
+      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+      backgroundColor: '#10284e', color: '#fff', padding: '12px', borderRadius: '10px', 
+      textDecoration: 'none', fontWeight: 'bold', fontSize: '14px'
+    },
+    mapLink: {
+        display: 'inline-flex', alignItems: 'center', gap: '5px', color: '#cc0000', 
+        fontSize: '12px', fontWeight: '600', textDecoration: 'none', marginTop: '5px'
     }
   };
 
-  if (loading) return <div style={{textAlign: 'center', padding: '100px'}}>Loading TZ Properties...</div>;
+  if (loading) return <div style={{textAlign: 'center', padding: '100px', fontWeight: 'bold'}}>TZ ESTATE IS LOADING...</div>;
 
   return (
     <div style={styles.wrapper}>
+      {/* Step 2: Global CSS for Hover/Mobile Effects */}
+      <style>{`
+        .listing-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(204, 0, 0, 0.1); border-color: #cc000033; }
+        .listing-card:active { transform: scale(0.98); }
+        .swiper-button-next, .swiper-button-prev { background: rgba(255,255,255,0.8); width: 30px !important; height: 30px !important; border-radius: 50%; }
+        .swiper-button-next:after, .swiper-button-prev:after { fontSize: 12px !important; fontWeight: bold; }
+      `}</style>
+
       <div style={styles.innerContainer}>
-        <h2 style={styles.sectionTitle}>Latest Listings</h2>
+        <h2 style={styles.sectionTitle}>Exclusive Properties</h2>
         <div style={styles.underline}></div>
         
         <div style={styles.grid}>
           {properties.map((p) => (
-            <div key={p.id} style={styles.card(p.status === 'Sold Out')} className="listing-card">
+            <div key={p.id} style={styles.card} className="listing-card">
               <div style={styles.imageContainer}>
                 <div style={styles.priceBadge}>PKR {p.price}</div>
                 
-                {/* SLIDER ADDED HERE */}
                 {p.images && p.images.length > 0 ? (
                   <Swiper
                     modules={[Navigation, Pagination, Autoplay]}
                     navigation
                     pagination={{ clickable: true }}
-                    autoplay={{ delay: 3000 }}
-                    style={{ "--swiper-navigation-size": "20px", "--swiper-theme-color": "#cc0000" }}
+                    autoplay={{ delay: 4000 }}
+                    style={{ height: '250px' }}
                   >
                     {p.images.map((img, idx) => (
                       <SwiperSlide key={idx}>
-                        <img src={img} alt={`${p.title}-${idx}`} style={styles.propertyImage} />
+                        <img src={img} alt={p.title} style={styles.propertyImage} loading="lazy" />
                       </SwiperSlide>
                     ))}
                   </Swiper>
@@ -96,25 +126,40 @@ const Portfolio = () => {
               </div>
 
               <div style={styles.content}>
-                <h4 style={{ color: '#10284e', margin: '0 0 5px 0' }}>{p.isPinned && "📌 "} {p.title}</h4>
-                <p style={{ color: '#888', fontSize: '14px' }}><i className="fas fa-map-marker-alt"></i> {p.location}</p>
-
-                <div style={styles.detailsGrid}>
-                  <span><i className="fas fa-th-large"></i> Sqft: {p.sqft || 'N/A'}</span>
-                  <span><i className="fas fa-car"></i> Garage: {p.garage || '0'}</span>
-                  <span><i className="fas fa-bed"></i> Bedrooms: {p.bedrooms || '0'}</span>
-                  <span><i className="fas fa-bath"></i> Bathrooms: {p.bathrooms || '0'}</span>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
+                    <h4 style={{ color: '#10284e', margin: '0', fontSize: '1.1rem', fontWeight: '700' }}>
+                        {p.isPinned && "⭐ "} {p.title}
+                    </h4>
+                    {p.status === 'Sold Out' && <span style={{fontSize: '10px', background: '#eee', padding: '2px 8px', borderRadius: '4px', color: '#999'}}>SOLD</span>}
                 </div>
 
-                <p style={{ fontSize: '13px', color: '#444' }}><i className="fas fa-user"></i> Muhammad Tahir</p>
-                <p style={{ fontSize: '12px', color: '#aaa' }}><i className="fas fa-clock"></i> {p.timestamp?.toDate().toLocaleDateString()}</p>
-
-                <a 
-                  href={`https://wa.me/923169477919?text=Interested in: ${p.title}`}
-                  target="_blank" rel="noreferrer" style={styles.waBtn}
-                >
-                  Inquiry Now
+                <a href={p.mapUrl || "#"} target="_blank" rel="noreferrer" style={styles.mapLink}>
+                    <i className="fas fa-map-marker-alt"></i> {p.location.substring(0, 30)}...
                 </a>
+
+                <div style={styles.detailsGrid}>
+                  <span><i className="fas fa-vector-square" style={{color: '#cc0000'}}></i> {p.sqft || 'N/A'} Sqft</span>
+                  <span><i className="fas fa-car" style={{color: '#cc0000'}}></i> {p.garage || '0'} Garage</span>
+                  <span><i className="fas fa-bed" style={{color: '#cc0000'}}></i> {p.bedrooms || '0'} Beds</span>
+                  <span><i className="fas fa-bath" style={{color: '#cc0000'}}></i> {p.bathrooms || '0'} Baths</span>
+                </div>
+
+                {/* Step 3: Quick Action Area */}
+                <div style={styles.actionArea}>
+                    <a href="tel:+923169477919" style={styles.callBtn}>
+                        <i className="fas fa-phone-alt"></i> Call
+                    </a>
+                    <a 
+                      href={`https://wa.me/923169477919?text=Assalam o Alaikum, I'm interested in: ${p.title}. Location: ${p.location}`}
+                      target="_blank" rel="noreferrer" style={styles.waBtn}
+                    >
+                      <i className="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                </div>
+                
+                <p style={{ fontSize: '11px', color: '#bbb', marginTop: '15px', textAlign: 'center' }}>
+                    Listed on {p.timestamp?.toDate().toLocaleDateString()}
+                </p>
               </div>
             </div>
           ))}

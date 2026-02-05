@@ -38,9 +38,8 @@ const Navbar = () => {
       zIndex: 2000,
       fontFamily: "'Poppins', sans-serif",
     },
-    // Is spacer ko exact header ki height ke barabar rakha hai
     spacer: {
-      height: isMobile ? '64px' : '80px', // Isse page ka content header ke niche se shuru hoga bina extra gap ke
+      height: isMobile ? '64px' : '80px', 
       backgroundColor: 'transparent',
       margin: 0,
       padding: 0
@@ -61,10 +60,13 @@ const Navbar = () => {
     logoText: {
       fontWeight: '900',
       fontSize: isMobile ? '18px' : '24px',
-      background: 'linear-gradient(45deg, #cc0000, #10284e)',
+      letterSpacing: '1px',
+      // --- GLOWING & SHINING LOGO EFFECT ---
+      background: 'linear-gradient(to right, #10284e 20%, #cc0000 40%, #cc0000 60%, #10284e 80%)',
+      backgroundSize: '200% auto',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
-      letterSpacing: '1px',
+      animation: 'textShine 3s infinite linear, neonPulse 2s infinite ease-in-out',
     },
     menu: {
       display: 'flex',
@@ -89,6 +91,20 @@ const Navbar = () => {
 
   return (
     <>
+      {/* Keyframes for Glowing and Shining */}
+      <style>
+        {`
+          @keyframes textShine {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+          }
+          @keyframes neonPulse {
+            0%, 100% { filter: drop-shadow(0 0 2px rgba(204, 0, 0, 0.2)); }
+            50% { filter: drop-shadow(0 0 8px rgba(204, 0, 0, 0.5)); }
+          }
+        `}
+      </style>
+
       <nav style={styles.nav}>
         <Link to="/" style={styles.logoContainer} onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
           <img src="/logo.png" alt="TZ Logo" style={styles.logoCircle} onError={(e) => { e.target.src = "https://via.placeholder.com/40"; }} />
@@ -102,7 +118,6 @@ const Navbar = () => {
           <li><span onClick={() => scrollToSection('contact')} style={styles.link}>Contact</span></li>
         </ul>
       </nav>
-      {/* Page ka content yahan se shuru ho raha hai */}
       <div style={styles.spacer}></div>
     </>
   );

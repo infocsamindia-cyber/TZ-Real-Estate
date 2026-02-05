@@ -8,84 +8,55 @@ import Footer from './components/Footer';
 import Login from './components/Login';
 import AdminDashboard from './components/AdminDashboard';
 
-// --- WhatsApp Widget Component with Auto-Hide ---
+// --- WhatsApp Widget Component ---
 const WhatsAppWidget = () => {
   const [showText, setShowText] = useState(false);
-
   useEffect(() => {
-    // 2 second baad pop-up dikhao
     const showTimer = setTimeout(() => setShowText(true), 2000);
-
-    // 9 second baad chhupa do (2s wait + 7s display = 9s total)
     const hideTimer = setTimeout(() => setShowText(false), 9000);
-
-    return () => {
-      clearTimeout(showTimer);
-      clearTimeout(hideTimer);
-    };
+    return () => { clearTimeout(showTimer); clearTimeout(hideTimer); };
   }, []);
-
-  const whatsappLink = "https://wa.me/923169477919?text=Hello! I visited your website and I need some help regarding properties.";
-
+  const whatsappLink = "https://wa.me/923169477919?text=Hello! I visited your website.";
   return (
-    <div style={{ position: 'fixed', bottom: '30px', right: '30px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', zIndex: 3000 }}>
-      {/* Pop-up Message */}
-      <div style={{
-        backgroundColor: '#fff', 
-        color: '#333', 
-        padding: '10px 20px', 
-        borderRadius: '20px 20px 0 20px',
-        boxShadow: '0 5px 15px rgba(0,0,0,0.2)', 
-        marginBottom: '10px', 
-        fontSize: '14px', 
-        fontWeight: '600',
-        opacity: showText ? 1 : 0, 
-        visibility: showText ? 'visible' : 'hidden', // Fully hide logic
-        transform: showText ? 'translateY(0)' : 'translateY(20px)',
-        transition: 'all 0.5s ease', 
-        border: '1px solid #25D366',
-        pointerEvents: 'none' // Bubble click block na kare
-      }}>
-        How can I help you? 👋
-      </div>
-
-      {/* WhatsApp Icon Button (Persistent) */}
-      <a href={whatsappLink} target="_blank" rel="noopener noreferrer" 
-         style={{ 
-           width: '60px', 
-           height: '60px', 
-           backgroundColor: '#25D366', 
-           borderRadius: '50%', 
-           display: 'flex', 
-           alignItems: 'center', 
-           justifyContent: 'center', 
-           color: '#fff', 
-           fontSize: '30px', 
-           boxShadow: '0 5px 20px rgba(0,0,0,0.3)', 
-           textDecoration: 'none',
-           transition: 'transform 0.3s ease'
-         }}
-         onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-         onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-      >
-        <i className="fab fa-whatsapp"></i>
-      </a>
+    <div style={{ position: 'fixed', bottom: '20px', right: '20px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', zIndex: 3000 }}>
+      <div style={{ backgroundColor: '#fff', color: '#333', padding: '8px 15px', borderRadius: '15px 15px 0 15px', boxShadow: '0 5px 15px rgba(0,0,0,0.1)', marginBottom: '8px', fontSize: '12px', fontWeight: '600', opacity: showText ? 1 : 0, visibility: showText ? 'visible' : 'hidden', transform: showText ? 'translateY(0)' : 'translateY(10px)', transition: 'all 0.5s ease', border: '1px solid #25D366', pointerEvents: 'none' }}>Help? 👋</div>
+      <a href={whatsappLink} target="_blank" rel="noopener noreferrer" style={{ width: '50px', height: '50px', backgroundColor: '#25D366', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '25px', boxShadow: '0 5px 20px rgba(0,0,0,0.3)', textDecoration: 'none' }}><i className="fab fa-whatsapp"></i></a>
     </div>
   );
 };
 
 const globalStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body, html {
-    width: 100%; overflow-x: hidden; font-family: 'Poppins', sans-serif;
-    background-color: #f4f4f4; scroll-behavior: smooth;
+  body, html { width: 100%; overflow-x: hidden; font-family: 'Poppins', sans-serif; background-color: #f4f4f4; scroll-behavior: smooth; }
+  
+  /* Chamakne wala (Shine) Effect */
+  @keyframes textShine {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+
+  /* Glow Pulsing Effect */
+  @keyframes neonGlow {
+    0%, 100% { filter: drop-shadow(0 0 10px rgba(16, 40, 78, 0.3)); }
+    50% { filter: drop-shadow(0 0 30px rgba(204, 0, 0, 0.5)); }
+  }
+
+  @keyframes mobileZoom {
+    0% { transform: scale(0.8); opacity: 0; filter: blur(10px); }
+    100% { transform: scale(1); opacity: 1; filter: blur(0); }
+  }
+
+  @keyframes slideReveal {
+    0% { width: 0; }
+    100% { width: 100%; }
   }
 `;
 
 const LayoutHandler = ({ children }) => {
   const location = useLocation();
   const hideLayout = location.pathname === '/admin' || location.pathname === '/login';
+  useEffect(() => { window.scrollTo(0, 0); }, [location.pathname]);
   return (
     <>
       {!hideLayout && <Navbar />}
@@ -97,6 +68,78 @@ const LayoutHandler = ({ children }) => {
 };
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  const [isExiting, setIsExiting] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsExiting(true);
+      setTimeout(() => setLoading(false), 700);
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <div style={{
+        position: 'fixed', top: 0, left: 0, width: '100%', height: '100dvh',
+        backgroundColor: '#fff', zIndex: 9999, display: 'flex', justifyContent: 'center',
+        alignItems: 'center', overflow: 'hidden',
+        transform: isExiting ? 'translateY(-100%)' : 'translateY(0)',
+        transition: 'transform 0.6s cubic-bezier(0.77, 0, 0.175, 1)'
+      }}>
+        <style>{globalStyles}</style>
+        
+        <div style={{ textAlign: 'center', padding: '0 20px' }}>
+          {/* TZ with Glow and Shine Effect */}
+          <h1 style={{
+            fontSize: '28vw',
+            fontWeight: '900',
+            fontFamily: "'Montserrat', sans-serif",
+            margin: 0, 
+            lineHeight: 0.8,
+            animation: 'mobileZoom 1s ease forwards, neonGlow 2s infinite ease-in-out',
+            background: 'linear-gradient(to right, #10284e 20%, #cc0000 40%, #cc0000 60%, #10284e 80%)',
+            backgroundSize: '200% auto',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            animationName: 'mobileZoom, textShine, neonGlow',
+            animationDuration: '1s, 3s, 2s',
+            animationIterationCount: '1, infinite, infinite'
+          }}>
+            TZ
+          </h1>
+
+          {/* Animated Line with Glow */}
+          <div style={{ 
+            width: '80px', height: '4px', backgroundColor: '#eee', 
+            margin: '30px auto', position: 'relative', overflow: 'hidden', borderRadius: '2px',
+            boxShadow: '0 0 10px rgba(204, 0, 0, 0.2)'
+          }}>
+            <div style={{
+              position: 'absolute', top: 0, left: 0, height: '100%', 
+              backgroundColor: '#cc0000', animation: 'slideReveal 1.5s ease-in-out forwards'
+            }}></div>
+          </div>
+
+          <p style={{
+            fontSize: '11px', letterSpacing: '7px', color: '#10284e',
+            textTransform: 'uppercase', fontWeight: '900', opacity: 0.8
+          }}>
+            Luxury Living
+          </p>
+        </div>
+
+        {/* Decorative Background Glow */}
+        <div style={{
+          position: 'absolute', width: '150%', height: '150%',
+          background: 'radial-gradient(circle, rgba(16,40,78,0.03) 0%, transparent 50%)',
+          zIndex: -1
+        }}></div>
+      </div>
+    );
+  }
+
   return (
     <>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -108,25 +151,16 @@ function App() {
             <Route path="/" element={
               <div style={{ width: '100%' }}>
                 <Hero />
-                
-                {/* About Section */}
-                <section id="about" style={{ padding: '80px 10%', backgroundColor: '#fff', textAlign: 'center' }}>
-                  <h2 style={{ color: '#cc0000', fontSize: '28px', fontWeight: '800', marginBottom: '20px' }}>
-                    ABOUT TZ ESTATE
-                  </h2>
-                  <p style={{ color: '#10284e', fontSize: '16px', lineHeight: '1.8', maxWidth: '800px', margin: '0 auto' }}>
-                    Led by <strong>Muhammad Tahir</strong>, TZ Real Estate is your premier partner in finding 
-                    exclusive properties in Gulberg Greens, DHA, and Bahria Town. We pride ourselves on 
-                    transparency, deep market knowledge, and helping our clients make the best 
-                    investment decisions.
+                <section id="about" style={{ padding: '60px 8%', backgroundColor: '#fff', textAlign: 'center' }}>
+                  <h2 style={{ color: '#cc0000', fontSize: '24px', fontWeight: '800', marginBottom: '15px' }}>ABOUT TZ ESTATE</h2>
+                  <p style={{ color: '#10284e', fontSize: '15px', lineHeight: '1.6' }}>
+                    Led by <strong>Muhammad Tahir</strong>, TZ Real Estate provides premium property solutions in Gulberg Greens, DHA, and Bahria Town.
                   </p>
                 </section>
-
                 <div id="listings"><Portfolio /></div>
                 <div id="contact"><Contact /></div>
               </div>
             } />
-
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
