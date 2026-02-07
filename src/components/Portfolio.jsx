@@ -30,8 +30,9 @@ const Portfolio = () => {
   const styles = {
     wrapper: { padding: '60px 0', backgroundColor: '#f8f9fa', minHeight: '100vh', fontFamily: "'Poppins', sans-serif" },
     innerContainer: { maxWidth: '1200px', margin: '0 auto', padding: '0 15px' },
-    sectionTitle: { textAlign: 'center', color: '#10284e', fontSize: '2rem', fontWeight: '800', marginBottom: '5px', textTransform: 'uppercase' },
-    underline: { width: '50px', height: '4px', background: '#cc0000', margin: '0 auto 40px auto', borderRadius: '2px' },
+    // Red/Blue ko Dark Black (#1a1a1a) kiya
+    sectionTitle: { textAlign: 'center', color: '#1a1a1a', fontSize: '2rem', fontWeight: '800', marginBottom: '5px', textTransform: 'uppercase' },
+    underline: { width: '50px', height: '4px', background: '#333333', margin: '0 auto 40px auto', borderRadius: '2px' },
     grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '25px' },
     
     card: {
@@ -47,13 +48,11 @@ const Portfolio = () => {
     },
     
     imageContainer: { width: '100%', position: 'relative', backgroundColor: '#f0f0f0', overflow: 'hidden' },
-    
-    // Yahan height ko responsive class ke zariye control karenge
     propertyImage: { width: '100%', display: 'block', objectFit: 'cover' },
     
     priceBadge: {
       position: 'absolute', top: '15px', left: '15px', 
-      backgroundColor: 'rgba(204, 0, 0, 0.85)', 
+      backgroundColor: 'rgba(26, 26, 26, 0.9)', // Light Black with transparency
       backdropFilter: 'blur(8px)',
       color: '#fff', padding: '6px 15px', borderRadius: '10px', 
       fontWeight: '800', fontSize: '16px', zIndex: 10,
@@ -64,7 +63,7 @@ const Portfolio = () => {
     detailsGrid: { 
       display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', 
       margin: '15px 0', padding: '15px 0', borderTop: '1px solid #f0f0f0', borderBottom: '1px solid #f0f0f0',
-      fontSize: '13px', color: '#555'
+      fontSize: '13px', color: '#333' // Darker text for readability
     },
     
     actionArea: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '15px' },
@@ -75,30 +74,31 @@ const Portfolio = () => {
     },
     callBtn: {
       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-      backgroundColor: '#10284e', color: '#fff', padding: '12px', borderRadius: '10px', 
+      backgroundColor: '#1a1a1a', color: '#fff', padding: '12px', borderRadius: '10px', 
       textDecoration: 'none', fontWeight: 'bold', fontSize: '14px'
     },
     mapLink: {
-        display: 'inline-flex', alignItems: 'center', gap: '5px', color: '#cc0000', 
+        display: 'inline-flex', alignItems: 'center', gap: '5px', color: '#333333', 
         fontSize: '12px', fontWeight: '600', textDecoration: 'none', marginTop: '5px'
     }
   };
 
-  if (loading) return <div style={{textAlign: 'center', padding: '100px', fontWeight: 'bold'}}>TZ ESTATE IS LOADING...</div>;
+  // Loading text change kiya: TZ COMPANY
+  if (loading) return <div style={{textAlign: 'center', padding: '100px', fontWeight: 'bold'}}>TZ COMPANY IS LOADING...</div>;
 
   return (
     <div style={styles.wrapper}>
-      {/* UPDATE: Added Responsive Height for PC/Laptop */}
       <style>{`
-        .listing-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(204, 0, 0, 0.1); border-color: #cc000033; }
+        /* Border color and shadow changed to black theme */
+        .listing-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); border-color: #33333333; }
         .listing-card:active { transform: scale(0.98); }
-        .swiper-button-next, .swiper-button-prev { background: rgba(255,255,255,0.8); width: 30px !important; height: 30px !important; border-radius: 50%; }
+        .swiper-button-next, .swiper-button-prev { background: rgba(255,255,255,0.8); width: 30px !important; height: 30px !important; border-radius: 50%; color: #000 !important; }
         .swiper-button-next:after, .swiper-button-prev:after { fontSize: 12px !important; fontWeight: bold; }
         
-        /* Mobile height (Default) */
+        /* Mobile height */
         .res-swiper, .res-img { height: 250px !important; }
 
-        /* Tablet & PC height (Responsive Fix) */
+        /* Tablet & PC height */
         @media (min-width: 768px) {
           .res-swiper, .res-img { height: 350px !important; }
         }
@@ -138,10 +138,10 @@ const Portfolio = () => {
 
               <div style={styles.content}>
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
-                    <h4 style={{ color: '#10284e', margin: '0', fontSize: '1.1rem', fontWeight: '700' }}>
+                    <h4 style={{ color: '#1a1a1a', margin: '0', fontSize: '1.1rem', fontWeight: '700' }}>
                         {p.isPinned && "⭐ "} {p.title}
                     </h4>
-                    {p.status === 'Sold Out' && <span style={{fontSize: '10px', background: '#eee', padding: '2px 8px', borderRadius: '4px', color: '#999'}}>SOLD</span>}
+                    {p.status === 'Sold Out' && <span style={{fontSize: '10px', background: '#333', padding: '2px 8px', borderRadius: '4px', color: '#fff'}}>SOLD</span>}
                 </div>
 
                 <a href={p.mapUrl || "#"} target="_blank" rel="noreferrer" style={styles.mapLink}>
@@ -149,10 +149,11 @@ const Portfolio = () => {
                 </a>
 
                 <div style={styles.detailsGrid}>
-                  <span><i className="fas fa-vector-square" style={{color: '#cc0000'}}></i> {p.sqft || 'N/A'} Sqft</span>
-                  <span><i className="fas fa-car" style={{color: '#cc0000'}}></i> {p.garage || '0'} Garage</span>
-                  <span><i className="fas fa-bed" style={{color: '#cc0000'}}></i> {p.bedrooms || '0'} Beds</span>
-                  <span><i className="fas fa-bath" style={{color: '#cc0000'}}></i> {p.bathrooms || '0'} Baths</span>
+                  {/* Icons ko Dark Black (#1a1a1a) kiya */}
+                  <span><i className="fas fa-vector-square" style={{color: '#1a1a1a'}}></i> {p.sqft || 'N/A'} Sqft</span>
+                  <span><i className="fas fa-car" style={{color: '#1a1a1a'}}></i> {p.garage || '0'} Garage</span>
+                  <span><i className="fas fa-bed" style={{color: '#1a1a1a'}}></i> {p.bedrooms || '0'} Beds</span>
+                  <span><i className="fas fa-bath" style={{color: '#1a1a1a'}}></i> {p.bathrooms || '0'} Baths</span>
                 </div>
 
                 <div style={styles.actionArea}>
@@ -167,7 +168,7 @@ const Portfolio = () => {
                     </a>
                 </div>
                 
-                <p style={{ fontSize: '11px', color: '#bbb', marginTop: '15px', textAlign: 'center' }}>
+                <p style={{ fontSize: '11px', color: '#777', marginTop: '15px', textAlign: 'center' }}>
                     Listed on {p.timestamp?.toDate().toLocaleDateString()}
                 </p>
               </div>

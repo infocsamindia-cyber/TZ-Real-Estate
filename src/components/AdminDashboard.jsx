@@ -77,7 +77,8 @@ const SearchField = ({ setMarkerPos, setFormData, mapType, setMapType, mapRef })
               border: '1px solid #ddd', 
               boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
               boxSizing: 'border-box',
-              fontSize: '14px'
+              fontSize: '14px',
+              fontFamily: "'Poppins', sans-serif"
             }}
           />
           <button 
@@ -88,12 +89,13 @@ const SearchField = ({ setMarkerPos, setFormData, mapType, setMapType, mapRef })
               right: '5px', 
               top: '50%', 
               transform: 'translateY(-50%)', 
-              background: '#10284e', 
+              background: '#1a1a1a', 
               color: '#fff', 
               border: 'none', 
               borderRadius: '6px', 
               padding: '8px 12px', 
-              cursor: 'pointer' 
+              cursor: 'pointer',
+              WebkitTapHighlightColor: 'transparent'
             }}
           >
             <i className="fas fa-search"></i>
@@ -103,7 +105,7 @@ const SearchField = ({ setMarkerPos, setFormData, mapType, setMapType, mapRef })
         <button 
           type="button" 
           onClick={() => setMapType(mapType === 'default' ? 'satellite' : 'default')} 
-          style={{ padding: '0 10px', background: '#fff', color: '#333', border: '1px solid #ccc', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '11px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}
+          style={{ padding: '0 10px', background: '#fff', color: '#1a1a1a', border: '1px solid #1a1a1a', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '11px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)', WebkitTapHighlightColor: 'transparent' }}
         >
           {mapType === 'default' ? '🛰️ SAT' : '🗺️ MAP'}
         </button>
@@ -124,7 +126,7 @@ const SearchField = ({ setMarkerPos, setFormData, mapType, setMapType, mapRef })
             zIndex: 1001 
         }}>
           {suggestions.map((item, i) => (
-            <li key={i} onClick={() => { setQueryText(item.display_name); handleSearch(item.display_name); }} style={{ padding: '12px', cursor: 'pointer', borderBottom: '1px solid #eee', fontSize: '13px' }}>{item.display_name}</li>
+            <li key={i} onClick={() => { setQueryText(item.display_name); handleSearch(item.display_name); }} style={{ padding: '12px', cursor: 'pointer', borderBottom: '1px solid #eee', fontSize: '13px', color: '#1a1a1a' }}>{item.display_name}</li>
           ))}
         </ul>
       )}
@@ -140,7 +142,7 @@ const AdminDashboard = () => {
   const [formData, setFormData] = useState({ 
     title: '', price: '', location: '', mapUrl: '',
     bedrooms: '', bathrooms: '', sqft: '', garage: '0',
-    isPinned: false // ADDED
+    isPinned: false
   });
   
   const [imgLinks, setImgLinks] = useState(Array(10).fill(''));
@@ -226,30 +228,31 @@ const AdminDashboard = () => {
   };
 
   const styles = {
-    wrapper: { backgroundColor: '#f0f2f5', minHeight: '100vh', padding: '15px 10px', fontFamily: "'Poppins', sans-serif" },
+    wrapper: { backgroundColor: '#f5f5f5', minHeight: '100vh', padding: '15px 10px', fontFamily: "'Poppins', sans-serif" },
     topNav: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '1000px', margin: '0 auto 20px' },
     card: { backgroundColor: '#fff', padding: '15px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', maxWidth: '1000px', margin: '0 auto 30px' },
     gridRow: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px', marginBottom: '15px' },
-    input: { width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '14px', boxSizing: 'border-box' },
-    btnSubmit: { width: '100%', padding: '15px', border: 'none', borderRadius: '8px', backgroundColor: '#10284e', color: '#fff', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer' },
-    logoutBtn: { backgroundColor: '#dc3545', color: '#fff', border: 'none', padding: '8px 15px', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', fontSize: '12px' },
-    listCard: { backgroundColor: '#fff', borderRadius: '10px', padding: '15px', marginBottom: '12px', borderLeft: '6px solid #cc0000', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' },
-    actionBtn: { border: 'none', padding: '8px 12px', borderRadius: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '5px' },
+    input: { width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '14px', boxSizing: 'border-box', fontFamily: "'Poppins', sans-serif" },
+    btnSubmit: { width: '100%', padding: '15px', border: 'none', borderRadius: '8px', backgroundColor: '#1a1a1a', color: '#fff', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', WebkitTapHighlightColor: 'transparent' },
+    logoutBtn: { backgroundColor: '#333', color: '#fff', border: 'none', padding: '8px 15px', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', fontSize: '12px', WebkitTapHighlightColor: 'transparent' },
+    listCard: { backgroundColor: '#fff', borderRadius: '10px', padding: '15px', marginBottom: '12px', borderLeft: '6px solid #1a1a1a', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' },
+    actionBtn: { border: '1px solid #1a1a1a', padding: '8px 12px', borderRadius: '6px', cursor: 'pointer', fontSize: '11px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '5px', WebkitTapHighlightColor: 'transparent', backgroundColor: '#fff', color: '#1a1a1a' },
+    deleteBtn: { border: '1px solid #333', padding: '8px 12px', borderRadius: '6px', cursor: 'pointer', fontSize: '11px', fontWeight: '600', backgroundColor: '#1a1a1a', color: '#fff', WebkitTapHighlightColor: 'transparent' }
   };
 
   return (
     <div style={styles.wrapper}>
       <div style={styles.topNav}>
         <div>
-          <h4 style={{ color: '#10284e', margin: 0 }}>TZ Management</h4>
-          <p style={{fontSize: '10px', color: '#666'}}>Admin Portal</p>
+          <h4 style={{ color: '#1a1a1a', margin: 0, fontWeight: '800' }}>TZ MANAGEMENT</h4>
+          <p style={{fontSize: '10px', color: '#666', letterSpacing: '1px'}}>ADMIN PORTAL</p>
         </div>
-        <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
+        <button onClick={handleLogout} style={styles.logoutBtn}>LOGOUT</button>
       </div>
 
       <div style={styles.card}>
-        <h2 style={{ fontSize: '1.1rem', marginBottom: '15px', color: '#333' }}>
-          <i className={editId ? "fas fa-edit" : "fas fa-plus-circle"}></i> {editId ? ' Edit Property' : ' Create New'}
+        <h2 style={{ fontSize: '1.1rem', marginBottom: '15px', color: '#1a1a1a', fontWeight: '700' }}>
+          <i className={editId ? "fas fa-edit" : "fas fa-plus-circle"}></i> {editId ? ' EDIT PROPERTY' : ' CREATE NEW'}
         </h2>
         
         <form onSubmit={handleSubmit}>
@@ -266,10 +269,11 @@ const AdminDashboard = () => {
             <input style={styles.input} type="number" placeholder="Beds" value={formData.bedrooms} onChange={e => setFormData({ ...formData, bedrooms: e.target.value })} />
             <input style={styles.input} type="number" placeholder="Baths" value={formData.bathrooms} onChange={e => setFormData({ ...formData, bathrooms: e.target.value })} />
             <input style={styles.input} placeholder="Sqft Area" value={formData.sqft} onChange={e => setFormData({ ...formData, sqft: e.target.value })} />
+            <input style={styles.input} type="number" placeholder="Garage" value={formData.garage} onChange={e => setFormData({ ...formData, garage: e.target.value })} />
           </div>
 
           <div style={{ marginBottom: '15px' }}>
-            <p style={{ fontSize: '13px', fontWeight: 'bold', marginBottom: '8px' }}>Images (Max 10):</p>
+            <p style={{ fontSize: '12px', fontWeight: 'bold', marginBottom: '8px', color: '#333' }}>IMAGES (MAX 10):</p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '8px' }}>
               {imgLinks.map((link, index) => (
                 <input key={index} style={{...styles.input, padding: '8px'}} placeholder={`Link ${index + 1}`} value={link} onChange={(e) => handleImgChange(index, e.target.value)} />
@@ -277,7 +281,6 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* SEARCH BAR CENTERED ABOVE MAP */}
           <SearchField 
             setMarkerPos={setMarkerPos} 
             setFormData={setFormData} 
@@ -286,7 +289,7 @@ const AdminDashboard = () => {
             mapRef={mapRef}
           />
 
-          <div style={{ height: '250px', borderRadius: '10px', overflow: 'hidden', marginBottom: '20px', border: '1px solid #ddd' }}>
+          <div style={{ height: '250px', borderRadius: '10px', overflow: 'hidden', marginBottom: '20px', border: '1px solid #1a1a1a' }}>
             <MapContainer 
                 center={markerPos} 
                 zoom={12} 
@@ -304,17 +307,16 @@ const AdminDashboard = () => {
             </MapContainer>
           </div>
 
-          {/* PIN PROPERTY CHECKBOX */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px', padding: '10px', background: '#f8f9fa', borderRadius: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px', padding: '12px', background: '#eee', borderRadius: '8px' }}>
             <input 
               type="checkbox" 
               id="isPinned" 
               checked={formData.isPinned} 
               onChange={(e) => setFormData({ ...formData, isPinned: e.target.checked })}
-              style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+              style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#1a1a1a' }}
             />
-            <label htmlFor="isPinned" style={{ fontSize: '14px', fontWeight: 'bold', color: '#10284e', cursor: 'pointer' }}>
-              📌 Pin this property to the top of listings
+            <label htmlFor="isPinned" style={{ fontSize: '13px', fontWeight: 'bold', color: '#1a1a1a', cursor: 'pointer' }}>
+              📌 PIN PROPERTY TO TOP
             </label>
           </div>
 
@@ -326,20 +328,21 @@ const AdminDashboard = () => {
 
       <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
         {properties.map(p => (
-          <div key={p.id} style={{...styles.listCard, borderLeft: p.isPinned ? '6px solid #28a745' : '6px solid #cc0000'}}>
+          <div key={p.id} style={{...styles.listCard, borderLeft: p.isPinned ? '6px solid #1a1a1a' : '6px solid #ccc'}}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '10px' }}>
                <div style={{flex: '1'}}>
-                 <h5 style={{ margin: '0 0 5px 0', fontSize: '14px' }}>
-                   {p.isPinned && "📌 "}{p.title}
+                 <h5 style={{ margin: '0 0 5px 0', fontSize: '14px', color: '#1a1a1a', fontWeight: '700' }}>
+                   {p.isPinned && "📌 "}{p.title.toUpperCase()}
                  </h5>
-                 <p style={{ fontSize: '12px', color: '#666', margin: 0 }}>{p.location}</p>
+                 <p style={{ fontSize: '11px', color: '#666', margin: 0 }}>{p.location}</p>
+                 <p style={{ fontSize: '11px', color: '#333', marginTop: '4px', fontWeight: '600' }}>GARAGE: {p.garage || '0'}</p>
                </div>
-               <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                 <button onClick={() => togglePin(p.id, p.isPinned)} style={{...styles.actionBtn, background: p.isPinned ? '#fff3cd' : '#e2e3e5', color: '#856404'}}>
-                   {p.isPinned ? 'Unpin' : 'Pin'}
+               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                 <button onClick={() => togglePin(p.id, p.isPinned)} style={styles.actionBtn}>
+                   {p.isPinned ? 'UNPIN' : 'PIN'}
                  </button>
-                 <button onClick={() => startEdit(p)} style={{...styles.actionBtn, background: '#e7f1ff', color: '#0056b3'}}>Edit</button>
-                 <button onClick={() => { if(window.confirm('Delete?')) deleteDoc(doc(db, "properties", p.id)) }} style={{...styles.actionBtn, background: '#f8d7da', color: '#721c24'}}>Del</button>
+                 <button onClick={() => startEdit(p)} style={styles.actionBtn}>EDIT</button>
+                 <button onClick={() => { if(window.confirm('Delete?')) deleteDoc(doc(db, "properties", p.id)) }} style={styles.deleteBtn}>DEL</button>
                </div>
             </div>
           </div>

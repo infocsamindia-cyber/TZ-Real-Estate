@@ -49,20 +49,21 @@ const Navbar = () => {
       alignItems: 'center',
       textDecoration: 'none',
       gap: '8px',
+      WebkitTapHighlightColor: 'transparent', // Mobile tap blue effect fix
     },
     logoCircle: {
       height: isMobile ? '38px' : '50px',
       width: isMobile ? '38px' : '50px',
       borderRadius: '50%',
       objectFit: 'cover',
-      border: '2px solid #cc0000',
+      border: '2px solid #1a1a1a', // Changed to Dark Black
     },
     logoText: {
       fontWeight: '900',
       fontSize: isMobile ? '18px' : '24px',
       letterSpacing: '1px',
-      // --- GLOWING & SHINING LOGO EFFECT ---
-      background: 'linear-gradient(to right, #10284e 20%, #cc0000 40%, #cc0000 60%, #10284e 80%)',
+      // --- BLACK & GREY SHINING EFFECT ---
+      background: 'linear-gradient(to right, #000000 20%, #444444 40%, #444444 60%, #000000 80%)',
       backgroundSize: '200% auto',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
@@ -78,7 +79,7 @@ const Navbar = () => {
     },
     link: {
       textDecoration: 'none',
-      color: '#10284e',
+      color: '#1a1a1a', // Changed from Blue to Dark Black
       fontWeight: '700',
       fontSize: isMobile ? '10px' : '14px', 
       textTransform: 'uppercase',
@@ -86,12 +87,14 @@ const Navbar = () => {
       whiteSpace: 'nowrap',
       padding: isMobile ? '6px 4px' : '8px 12px',
       borderRadius: '4px',
+      WebkitTapHighlightColor: 'transparent', // Removes the blue flash on mobile
+      userSelect: 'none', // Prevents selection text during tap
     }
   };
 
   return (
     <>
-      {/* Keyframes for Glowing and Shining */}
+      {/* Keyframes for Black/Grey Theme */}
       <style>
         {`
           @keyframes textShine {
@@ -99,8 +102,12 @@ const Navbar = () => {
             100% { background-position: 100% 50%; }
           }
           @keyframes neonPulse {
-            0%, 100% { filter: drop-shadow(0 0 2px rgba(204, 0, 0, 0.2)); }
-            50% { filter: drop-shadow(0 0 8px rgba(204, 0, 0, 0.5)); }
+            0%, 100% { filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.1)); }
+            50% { filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3)); }
+          }
+          /* Custom CSS to handle mobile interaction issues */
+          span:active {
+            background-color: rgba(0, 0, 0, 0.05);
           }
         `}
       </style>

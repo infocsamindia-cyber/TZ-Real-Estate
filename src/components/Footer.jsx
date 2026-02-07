@@ -5,7 +5,8 @@ const Footer = () => {
 
   const styles = {
     footer: {
-      backgroundColor: '#10284e',
+      // Background Changed to Dark Black
+      backgroundColor: '#1a1a1a',
       color: 'white',
       padding: '60px 5% 20px 5%',
       fontFamily: "'Poppins', sans-serif",
@@ -23,7 +24,8 @@ const Footer = () => {
       fontWeight: 'bold',
       marginBottom: '20px',
       color: '#fff',
-      borderLeft: isMobile ? 'none' : '4px solid #cc0000',
+      // Red border changed to Light Black/Grey for minimalist look
+      borderLeft: isMobile ? 'none' : '4px solid #444',
       paddingLeft: isMobile ? '0' : '15px'
     },
     link: {
@@ -35,13 +37,18 @@ const Footer = () => {
       marginBottom: '15px',
       fontSize: '14px',
       cursor: 'pointer',
-      transition: '0.3s'
+      transition: '0.3s',
+      WebkitTapHighlightColor: 'transparent', // Fixes blue flash on mobile
+      outline: 'none' // Fixes focus outline
     },
-    // Contact Icons ka Green Color
+    // Contact Icons Changed to Black as per your request
     contactIcon: {
-      color: '#25D366', 
+      color: '#000000', 
+      backgroundColor: '#fff', 
+      padding: '5px',
+      borderRadius: '4px',
       marginRight: '12px',
-      fontSize: '18px'
+      fontSize: '16px'
     },
     socialIcon: {
       display: 'inline-flex',
@@ -55,7 +62,8 @@ const Footer = () => {
       fontSize: '18px',
       textDecoration: 'none',
       transition: 'transform 0.3s ease',
-      boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+      boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+      WebkitTapHighlightColor: 'transparent' // Fixes blue flash on social icons
     },
     bottomBar: {
       marginTop: '50px',
@@ -84,7 +92,7 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* Column 3: Contact Info (GREEN ICONS & DIRECT LINKS) */}
+        {/* Column 3: Contact Info (ICONS CHANGED TO BLACK) */}
         <div>
           <h3 style={styles.title}>Contact Info</h3>
           
@@ -99,19 +107,18 @@ const Footer = () => {
             Gulberg Greens, Islamabad
           </a>
 
-
           <a href="mailto:tzrealestatecompany@gmail.com" style={styles.link}>
             <i className="fas fa-envelope" style={styles.contactIcon}></i> 
             tzrealestatecompany@gmail.com
           </a>
         </div>
 
-        {/* Column 4: Follow Us (REAL BRAND COLORS) */}
+        {/* Column 4: Follow Us (REAL COLORS KEPT) */}
         <div>
           <h3 style={styles.title}>Follow Us</h3>
           <div style={{ marginTop: '10px', display: 'flex', justifyContent: isMobile ? 'center' : 'flex-start' }}>
             
-            {/* WhatsApp Channel - Green */}
+            {/* WhatsApp - Real Green */}
             <a href="https://whatsapp.com/channel/0029VbC1Yrm9Gv7NUzaGhw1W" target="_blank" rel="noopener noreferrer" 
                style={{...styles.socialIcon, backgroundColor: '#25D366'}}>
               <i className="fab fa-whatsapp"></i>
